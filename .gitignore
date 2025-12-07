@@ -1,0 +1,25 @@
+# Binaries
+*.exe
+*.exe~
+*.out
+*.dll
+*.so
+*.dylib
+
+*.test
+
+# Build artifacts
+/bin/
+/pkg/
+
+# Dependency caches
+/vendor/
+
+# IDE files
+.idea/
+.vscode/
+
+go.work
+go.work.sum
+
+.env
