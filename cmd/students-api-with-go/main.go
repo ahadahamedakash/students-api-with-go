@@ -12,9 +12,10 @@ import (
 	"time"
 
 	"github.com/ahadahamedakash/students-api-with-go/internal/config"
+	"github.com/ahadahamedakash/students-api-with-go/internal/http/handlers/student"
 )
 
-func main(){
+func main() {
 	fmt.Println("Welcome to students api")
 	// load config
 	cfg := config.MustLoad()
@@ -22,18 +23,15 @@ func main(){
 	// setup router
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request){
-		w.Write([]byte("Welcome to students api with go"))
-	})
+	router.HandleFunc("POST /api/students", student.New())
 
 	// setup server
-	server := http.Server {
-		Addr: cfg.Address,
+	server := http.Server{
+		Addr:    cfg.Address,
 		Handler: router,
 	}
 
 	slog.Info("Server started %s", slog.String("Address", cfg.Address))
-	
 
 	// fmt.Println("Server is running!")
 	fmt.Printf("Server is running at %s", cfg.HTTPServer.Address)
@@ -46,13 +44,13 @@ func main(){
 		if err := server.ListenAndServe(); err != nil {
 			log.Fatal("Failed to start server!")
 		}
-	} ()
+	}()
 
 	<-done
-	
+
 	slog.Info("Shutting down the server!")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
@@ -60,5 +58,5 @@ func main(){
 	}
 
 	slog.Info("Server shutdown successfully!")
-	
+
 }
