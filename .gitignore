@@ -24,4 +24,4 @@ go.work.sum
 
 .env
 
-storage
+/storage
